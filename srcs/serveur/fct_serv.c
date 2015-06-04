@@ -23,17 +23,23 @@ void		change_nick(t_env *e, int cs)
 
 	tmp = NULL;
 	tab = ft_strsplit(e->fds[cs].buf_read, ' ');
-	if (tab[1] && !tab[2] && tab[3] == NULL)
+	if (tab[1] && tab[2] == NULL)
 	{
-		tmp = ft_strjoin(e->fds[cs].name, " is now know has ");
-		tmp = ft_strjoin(tmp, tab[1]);
-		tab[1][ft_strlen(tab[1]) - 1] = '\0';
-		e->fds[cs].name = ft_strdup(tab[1]);
-		ft_strcat(e->fds[cs].buf_write, tmp);
-		free(tmp);
+		if (ft_strlen(tab[1]) <= 9)
+		{
+			tmp = ft_strjoin(e->fds[cs].name, " is now know has ");
+			tmp = ft_strjoin(tmp, tab[1]);
+			tab[1][ft_strlen(tab[1]) - 1] = '\0';
+			e->fds[cs].name = ft_strdup(tab[1]);
+			ft_strcat(e->fds[cs].buf_write, tmp);
+			free(tmp);
+		}
+		else
+			send(cs, "ERROR: nickname max len must be <= 9\n", 37, 0);
 	}
 	else
 		send(cs, "Usage: /nick <nickname> (without spaces)\n", 41, 0);
+	free(tab);
 }
 
 void		display_who(t_env *e, int cs)
@@ -114,4 +120,6 @@ void		send_private_msg(t_env *e, int cs)
 				send(i, tmp, ft_strlen(tmp), 0);
 		}
 	}
+	else
+		send(cs, "Usage: /nick <nickname> [msg]\n", 30, 0);
 }
