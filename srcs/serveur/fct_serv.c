@@ -111,14 +111,11 @@ void		send_private_msg(t_env *e, int cs)
 			if (tab[i + 1] != NULL)
 				tmp = ft_strjoin(tmp, " ");
 		}
-		ft_printf("try to send [%s] to %s.", tmp, tab[1]);
 		i = -1;
 		while (++i < e->maxfd)
-		{
 			if ((e->fds[i].type == FD_CLIENT)
 				&& (strcmp(tab[1], e->fds[i].name) == 0))
 				send(i, tmp, ft_strlen(tmp), 0);
-		}
 	}
 	else
 		send(cs, "Usage: /nick <nickname> [msg]\n", 30, 0);

@@ -58,17 +58,15 @@ void			client_read_send(t_env *e, int cs, char *tmp, char *tosend)
 	int		i;
 
 	i = 0;
-			while (strrchr(e->fds[cs].buf_read, '\n') == NULL)
-			{
-				printf("received: [%s]\n", e->fds[cs].buf_read);
-				tosend = ft_strjoin(tosend, e->fds[cs].buf_read);
-				printf("a-join [%s] et [%s]\n", tosend, e->fds[cs].buf_read);
-				recv(cs, e->fds[cs].buf_read, BUF_SIZE, 0);
-			}
-			tosend = ft_strjoin(tosend, e->fds[cs].buf_read);
-			tmp = ft_strjoin(e->fds[cs].name, ": ");
-			printf("join [%s] et [%s]\n", tmp, tosend);
-			tmp = ft_strjoin(tmp, tosend);
+	while (strrchr(e->fds[cs].buf_read, '\n') == NULL)
+	{
+		printf("received: [%s]\n", e->fds[cs].buf_read);
+		tosend = ft_strjoin(tosend, e->fds[cs].buf_read);
+		recv(cs, e->fds[cs].buf_read, BUF_SIZE, 0);
+	}
+	tosend = ft_strjoin(tosend, e->fds[cs].buf_read);
+	tmp = ft_strjoin(e->fds[cs].name, ": ");
+	tmp = ft_strjoin(tmp, tosend);
 	while (i < e->maxfd)
 	{
 		if ((e->fds[i].type == FD_CLIENT)
