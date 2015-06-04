@@ -20,10 +20,14 @@ void		leave_channel(t_env *e, int cs)
 {
 	char	*tmp;
 
-	tmp = NULL;
 	tmp = ft_strjoin(e->fds[cs].name, " has left ");
 	tmp = ft_strjoin(tmp, e->fds[cs].channel);
+	tmp = ft_strjoin(tmp, "\n");
 	ft_strcat(e->fds[cs].buf_write, tmp);
 	client_write(e, cs);
+	tmp = ft_strjoin(e->fds[cs].name, " has join ");
+	tmp = ft_strjoin(tmp, "#default\n\0");
 	e->fds[cs].channel = ft_strdup("#default");
+	ft_strcat(e->fds[cs].buf_write, tmp);
+	free(tmp);
 }
