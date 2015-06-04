@@ -42,7 +42,6 @@ void	init_fd(t_env *e)
 			if (strlen(e->fds[i].buf_write) > 0)
 				FD_SET(i, &e->fd_write);
 			e->max = MAX(e->max, i);
-			ft_bzero(e->fds[i].buf_write, ft_strlen(e->fds[i].buf_write));
 		}
 		i++;
 	}

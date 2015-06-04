@@ -23,7 +23,7 @@ void		change_nick(t_env *e, int cs)
 
 	tmp = NULL;
 	tab = ft_strsplit(e->fds[cs].buf_read, ' ');
-	if (tab[1] && !tab[2])
+	if (tab[1] && !tab[2] && tab[3] == NULL)
 	{
 		tmp = ft_strjoin(e->fds[cs].name, " is now know has ");
 		tmp = ft_strjoin(tmp, tab[1]);
@@ -32,6 +32,8 @@ void		change_nick(t_env *e, int cs)
 		ft_strcat(e->fds[cs].buf_write, tmp);
 		free(tmp);
 	}
+	else
+		send(cs, "Usage: /nick <nickname> (without spaces)\n", 41, 0);
 }
 
 void		display_who(t_env *e, int cs)
